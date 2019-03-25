@@ -1,0 +1,16 @@
+<div class="finestra frame">
+	<div class="header">
+		<div class="caption">
+			<p></p>
+		</div>
+		<div class="frame-controls">
+			<div class="button close">
+				<p class="material-icons">close</p>
+			</div>
+		</div>
+	</div>
+	<div class="custom-controls"></div>
+	<div class="body">
+	</div>	
+	<div class="resizer"></div>
+</div>
