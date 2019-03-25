@@ -19,13 +19,21 @@ class Finestra {
 	};
 
 	constructor () {
-		this.content = {};
+		this.state = {}
+
+		this.frameParams = {
+
+		}
+
+		this.content = {}
 	}
 
 	create ( params ) {
 		params = { ...Finestra.defaultFrameParams, ...params }
 		params.id = params.id || Utils.generateRandomString( "frame", 16 )
 		params.name = params.name || params.id
+
+		params.remove = this.remove.bind( this, params.id )
 
 		this.content[ params.id ] = new Frame( params );
 		return this.content[ params.id ]

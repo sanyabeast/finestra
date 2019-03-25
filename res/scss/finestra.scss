@@ -42,7 +42,8 @@
             flex-direction: row;
             align-items: center;
             justify-content: space-between;
-            padding: 8px 16px;
+            padding: 0 16px;
+            height: 32px;
             background-color: #f0f0f0;
             cursor: move;
 
@@ -53,6 +54,12 @@
             }
 
             .button {
+                height: 100%;
+                width: 24px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+
                 p {
                     margin: 0;
                     cursor: pointer;
@@ -64,6 +71,12 @@
             padding: 8px 16px;
             background-color: #e8e8e8;
             .button {
+                height: 100%;
+                width: 24px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+
                 p {
                     margin: 0;
                     cursor: pointer;

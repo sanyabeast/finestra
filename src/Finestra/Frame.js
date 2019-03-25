@@ -4,7 +4,7 @@ import file_window_html from "txt!xml/frame.xml";
 import file_custom_controls_button from "txt!xml/custom_button.xml";
 
 class Frame {
-	get UUID () { return this.state.id }
+	get id () { return this.state.id }
 	get bodyElement () {
 		return this.dom.querySelector(".body")
 	}
@@ -27,27 +27,21 @@ class Frame {
 				onClose: params.onClose,
 				onFocus: params.onFocus,
 			},
-			id: params.id
+			id: params.id,
+			remove: params.remove
 		};
 
 		this.dom = Utils.parseHTML( file_window_html )
-
-		this.dom.querySelector(".header .caption p").innerHTML = this.state.name;
-
-		this.dom.addEventListener("click", this.state.callbacks.onFocus || function () {})
+		this.dom.querySelector( ".header .caption p" ).innerHTML = this.state.name;
+		this.dom.addEventListener( "click", this.state.callbacks.onFocus || function () {})
 		
 		this.$setupFocusing();
 		this.$setupDragging();
 		this.$setupResizing();
 		this.$setupButtons();
 
-		if (params.position) {
-			this.setPosition(params.position.x, params.position.y);
-		}
-
-		if (params.size) {
-			this.setSize(params.size.x, params.size.y);
-		}
+		this.setPosition(params.position.x, params.position.y);
+		this.setSize(params.size.x, params.size.y);
 
 		document.body.appendChild(this.dom);
 
@@ -149,7 +143,13 @@ class Frame {
 	$setupButtons () {
 		let closeButton = this.dom.querySelector(".header .frame-controls .button.close");
 
-		closeButton.addEventListener("click", this.state.callbacks.onClose || function () {});
+		closeButton.addEventListener("click", ()=>{
+			if ( this.state.callbacks.onClose ) {
+				this.state.callbacks.onClose( this ) 
+			}
+
+			this.state.remove() 
+		});
 	}
 
 	setPosition (x, y) {
@@ -182,15 +182,15 @@ class Frame {
 
 		button.querySelector("p").innerHTML = caption;
 		  
-		if (callbacks.onClick) button.addEventListener("click", callbacks.onClick);
-		if (callbacks.onOver) button.addEventListener("mouseover", callbacks.onOver);
-		if (callbacks.onOut) button.addEventListener("mouseout", callbacks.onOut);
+		if ( callbacks.onClick ) button.addEventListener( "click", callbacks.onClick );
+		if ( callbacks.onOver ) button.addEventListener( "mouseover", callbacks.onOver );
+		if ( callbacks.onOut ) button.addEventListener( "mouseout", callbacks.onOut );
 
 		if (title) {
-			button.setAttribute("title", title);
+			button.setAttribute( "title", title );
 		}
 
-		this.dom.querySelector(".custom-controls").appendChild(button);
+		this.dom.querySelector( ".custom-controls" ).appendChild( button );
 
 	}
 
@@ -200,10 +200,6 @@ class Frame {
 
 	setZIndex (value) {
 		this.dom.style.zIndex = value || "";
-	}
-
-	makeStatic (key) {
-		key ? this.dom.classList.add("static"): this.dom.classList.remove("static");
 	}
 }
 
